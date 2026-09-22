@@ -1,0 +1,32 @@
+name: Repo checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  source-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Bash syntax
+        run: bash -n patch.sh
+
+      - name: Python syntax
+        run: python3 -m py_compile scripts/*.py
+
+      - name: Reject committed proprietary Android binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          bad="$(git ls-files | grep -E '\.(jar|dex|apk|img|bin)$' || true)"
+          if [[ -n "$bad" ]]; then
+            echo "Binary artifacts must not be committed:"
+            echo "$bad"
+            exit 1
+          fi

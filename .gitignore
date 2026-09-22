@@ -1,0 +1,22 @@
+# Working data
+.work/
+*.tmp
+__pycache__/
+*.pyc
+
+# Proprietary/local input and reference binaries
+input/*
+!input/.gitkeep
+reference/*
+!reference/.gitkeep
+
+# Generated outputs
+output/*
+!output/.gitkeep
+
+# Never commit Android binary artifacts
+*.jar
+*.dex
+*.apk
+*.img
+*.bin

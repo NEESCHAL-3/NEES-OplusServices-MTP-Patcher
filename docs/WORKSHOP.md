@@ -6,6 +6,12 @@ The website is public and open to everyone. Sign in to GitHub to submit a patch 
 
 The patch service is a static GitHub Pages website, hosted separately from a private source repository, backed by this repository's issue events and Actions. There is no external backend and no credential in the browser.
 
+## GitHub sign-in
+
+**Sign-in happens on github.com.** Start patch opens a prefilled issue in this public repository. GitHub requires a signed-in account to submit that issue and associate the request with its author.
+
+The patch website never asks for, receives, or stores your GitHub password. It requests no access token or account permissions. If GitHub asks you to sign in, check that the address is `https://github.com/`; enter your credentials only through GitHub's own sign-in flow. Browsing the site, checking public requests, and downloading releases require no login.
+
 ## User flow
 
 1. Enter a codename and public JAR link at the patch service.

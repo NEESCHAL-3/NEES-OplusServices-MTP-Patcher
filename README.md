@@ -6,6 +6,8 @@
 
 Enter a device codename and public HTTPS link to your original `oplus-services.jar`, and click **Start patch**. Sign in to GitHub and submit the prefilled issue, then return to the patch service. The page automatically finds your submission and tracks the result; no request number needs to be copied.
 
+**Sign-in happens on github.com.** The website never asks for, receives, or stores your GitHub password, and requests no access token or account permissions. GitHub login is needed to submit the request; viewing the site and downloading packages requires no login.
+
 The job runs in this repository's GitHub Actions. Successful checks publish a public release such as `rodin-mtp-patched-142.zip` or `rosemary-mtp-patched-143.zip`, containing the patched JAR, its checksum, patch report, and usage notes. The codename names the package; it does **not** establish compatibility. Generated outputs are structurally checked and have not been device-tested by the service.
 
 Requests, links, logs, and releases are public. Submit only files you can share publicly. The patch service accepts JARs without a known-input hash restriction and checks whether the source patch matches their code. Exact patch anchors and structural verification remain mandatory. The local CLI retains its default known-input hash gate. Keep your original JAR and test reversibly.

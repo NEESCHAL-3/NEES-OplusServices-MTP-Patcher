@@ -1,0 +1,148 @@
+name: Patch request
+run-name: "MTP patch · request #${{ github.event.issue.number }}"
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    if: startsWith(github.event.issue.title, '[Patch request]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    outputs:
+      codename: ${{ steps.request.outputs.codename }}
+      mode: ${{ steps.request.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate request and usage limits
+        id: request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_request.py
+      - name: Acknowledge job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_status.py patching
+      - name: Pass validated request
+        uses: actions/upload-artifact@v4
+        with:
+          name: request
+          path: .work/request.json
+          include-hidden-files: true
+          retention-days: 1
+      - name: Explain rejected request
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_status.py failed
+
+  patch:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: request
+          path: .work
+      - name: Install pinned distribution toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libsmali-java unzip
+          mkdir -p .tools
+          printf '#!/bin/sh\nexec java -cp "/usr/share/java/*" org.jf.smali.Main "$@"\n' > .tools/smali
+          printf '#!/bin/sh\nexec java -cp "/usr/share/java/*" org.jf.baksmali.Main "$@"\n' > .tools/baksmali
+          chmod +x .tools/smali .tools/baksmali
+          echo "$PWD/.tools" >> "$GITHUB_PATH"
+      - name: Download and inspect original JAR
+        run: python3 scripts/web_download.py
+      - name: Patch and verify
+        env:
+          ALLOW_UNTESTED: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash patch.sh
+      - name: Create device-named package
+        run: python3 scripts/web_package.py
+      - name: Pass verified package to publisher
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-package
+          path: package/
+          retention-days: 1
+          if-no-files-found: error
+      - name: Preserve a download error for the reporter
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p failure-report
+          if [[ -f .work/web-error.txt ]]; then cp .work/web-error.txt failure-report/web-error.txt; else printf '%s\n' 'Patching or verification failed. The JAR may be unsupported or required patch anchors may be missing. No release was published. See the workflow run for details.' > failure-report/web-error.txt; fi
+      - name: Pass failure report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-report
+          path: failure-report/
+          retention-days: 1
+
+  publish:
+    needs: [prepare, patch]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-package
+          path: package
+      - name: Publish release and download link
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_release.py
+      - name: Explain publication failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_status.py failed
+
+  report-failure:
+    needs: [prepare, patch]
+    if: always() && needs.prepare.result == 'success' && needs.patch.result != 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: failure-report
+          path: .work
+      - name: Report failure without publishing a package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/web_status.py failed

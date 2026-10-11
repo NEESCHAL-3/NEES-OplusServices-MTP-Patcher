@@ -2,6 +2,18 @@
 
 All notable changes to the public patcher source are documented here.
 
+## [1.1.0] - 2026-10-11
+
+### Added
+- GitHub Pages MTP Workshop with codename input, public JAR links, automatic code compatibility checks, request tracking, and release downloads.
+- GitHub issue-driven Actions pipeline with a separate read-only patch job and release publisher.
+- Device-named ZIPs, archive and JAR checksums, and patch provenance reports.
+- HTTPS downloader with public-address pinning, redirect validation, and size limits.
+- Public-sharing confirmation, request limits, and clear failure reports.
+
+### Changed
+- Source tree remains binary-free; successful user-authorized workshop outputs are published as public GitHub Release assets.
+
 ## [1.0.0] - 2026-09-22
 
 ### Added

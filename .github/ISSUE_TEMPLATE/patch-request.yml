@@ -1,0 +1,29 @@
+name: Patch request
+description: Generate a device-named MTP patch package from a public JAR link.
+title: "[Patch request] "
+body:
+  - type: markdown
+    attributes:
+      value: "Use the title `[Patch request] your-codename`. Requests, download links, logs, and output packages are public. The codename labels the package; it does not determine compatibility."
+  - type: input
+    id: device
+    attributes:
+      label: Device codename
+      placeholder: rodin
+    validations:
+      required: true
+  - type: input
+    id: jar
+    attributes:
+      label: JAR download URL
+      description: Public HTTPS link to the original oplus-services.jar. Maximum 100 MB.
+      placeholder: https://drive.google.com/file/d/...
+    validations:
+      required: true
+  - type: checkboxes
+    id: sharing
+    attributes:
+      label: Public sharing
+      options:
+        - label: I can share this file publicly and understand that requests and release packages are public.
+          required: true

@@ -5,11 +5,11 @@ This project modifies a framework JAR used by Android system services. A bad or 
 - Keep a known-good copy of the original JAR.
 - Test unknown builds with a reversible method before permanently baking changes.
 - Do not disable platform integrity or verification features merely to make an incompatible patch boot.
-- Do not commit firmware binaries or attach them to security reports. The workshop accepts public download links only from users who confirm they can share the input and output publicly.
+- Do not commit firmware binaries or attach them to security reports. The patch service accepts public download links only from users who confirm they can share the input and output publicly.
 
 For a security-sensitive problem in the patcher source itself, open a GitHub issue without attaching proprietary files or device secrets.
 
-## Hosted workshop
+## Hosted patch service
 
 - All request fields and generated releases are public. Do not submit credentials, signed private links, device identifiers, or other secrets.
 - Download URLs are HTTPS-only, DNS results must be public, and every redirect is checked. Connections pin a validated address while retaining TLS hostname verification.

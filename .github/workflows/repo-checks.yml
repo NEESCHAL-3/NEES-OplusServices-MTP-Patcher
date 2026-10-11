@@ -20,7 +20,7 @@ jobs:
       - name: Python syntax
         run: python3 -m py_compile scripts/*.py
 
-      - name: Workshop request, download, and package checks
+      - name: Patch service request, download, and package checks
         run: python3 -m unittest discover -s tests -v
 
 

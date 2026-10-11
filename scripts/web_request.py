@@ -54,7 +54,7 @@ def check_limits(issue, repo, token):
     with urllib.request.urlopen(request, timeout=20) as response:
         open_issues = json.load(response)
     if sum(item['title'].startswith('[Patch request]') and not item.get('pull_request') for item in open_issues) > 20:
-        raise ValueError('The workshop is busy. There are twenty open patch requests; please try again later.')
+        raise ValueError('The patch service is busy. There are twenty open patch requests; please try again later.')
 
 
 def main():

@@ -1,16 +1,16 @@
 # NEES OplusServices MTP / USB UI Patcher
 
-## MTP Workshop — patch in your browser
+## MTP Patcher — patch in your browser
 
-**[Open the workshop](https://neeschal-3.github.io/NEES-MTP-Workshop/)**
+**[Open MTP Patcher](https://neeschal-3.github.io/NEES-MTP-Workshop/)**
 
-Enter a device codename and public HTTPS link to your original `oplus-services.jar`, and click **Start patch**. Sign in to GitHub and submit the prefilled issue, then return to the workshop. The page automatically finds your submission and tracks the result; no request number needs to be copied.
+Enter a device codename and public HTTPS link to your original `oplus-services.jar`, and click **Start patch**. Sign in to GitHub and submit the prefilled issue, then return to the patch service. The page automatically finds your submission and tracks the result; no request number needs to be copied.
 
 The job runs in this repository's GitHub Actions. Successful checks publish a public release such as `rodin-mtp-patched-142.zip` or `rosemary-mtp-patched-143.zip`, containing the patched JAR, its checksum, patch report, and usage notes. The codename names the package; it does **not** establish compatibility. Generated outputs are structurally checked and have not been device-tested by the service.
 
-Requests, links, logs, and releases are public. Submit only files you can share publicly. The workshop accepts JARs without a known-input hash restriction and checks whether the source patch matches their code. Exact patch anchors and structural verification remain mandatory. The local CLI retains its default known-input hash gate. Keep your original JAR and test reversibly.
+Requests, links, logs, and releases are public. Submit only files you can share publicly. The patch service accepts JARs without a known-input hash restriction and checks whether the source patch matches their code. Exact patch anchors and structural verification remain mandatory. The local CLI retains its default known-input hash gate. Keep your original JAR and test reversibly.
 
-Google Drive links must allow **Anyone with the link**. Dropbox share links and direct HTTPS downloads are supported. Hosts that return a login, confirmation page, or virus-scan interstitial need a direct download link instead. See [workshop operations](docs/WORKSHOP.md) for limits, deployment, and troubleshooting.
+Google Drive links must allow **Anyone with the link**. Dropbox share links and direct HTTPS downloads are supported. Hosts that return a login, confirmation page, or virus-scan interstitial need a direct download link instead. See [patch service guide](docs/WORKSHOP.md) for limits, deployment, and troubleshooting.
 
 [![Repo checks](https://github.com/NEESCHAL-3/NEES-OplusServices-MTP-Patcher/actions/workflows/repo-checks.yml/badge.svg)](https://github.com/NEESCHAL-3/NEES-OplusServices-MTP-Patcher/actions/workflows/repo-checks.yml)
 ![Platform](https://img.shields.io/badge/platform-Android-green)
@@ -195,7 +195,7 @@ See [docs/TECHNICAL.md](docs/TECHNICAL.md) for the technical explanation.
 
 ## Repository policy
 
-The Git repository contains **source only**; proprietary inputs, references, and generated binaries must never be committed. The optional public workshop publishes user-requested generated packages as **GitHub Release assets** after verification. Only submit inputs you can share publicly. Release assets are separate from the source license and can be removed by the maintainer.
+The Git repository contains **source only**; proprietary inputs, references, and generated binaries must never be committed. The optional public patch service publishes user-requested generated packages as **GitHub Release assets** after verification. Only submit inputs you can share publicly. Release assets are separate from the source license and can be removed by the maintainer.
 
 Do not commit:
 

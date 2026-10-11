@@ -1,14 +1,14 @@
-# MTP Workshop
+# MTP Patcher
 
-The workshop is a static GitHub Pages website, hosted separately from a private source repository, backed by this repository's issue events and Actions. There is no external backend and no credential in the browser.
+The patch service is a static GitHub Pages website, hosted separately from a private source repository, backed by this repository's issue events and Actions. There is no external backend and no credential in the browser.
 
 ## User flow
 
-1. Enter a codename and public JAR link at the workshop.
+1. Enter a codename and public JAR link at the patch service.
 2. Any OplusServices JAR can be submitted. The service automatically checks the code required by the patch; there is no fingerprint restriction or compatibility-mode choice.
 3. Confirm public sharing and click **Start patch**.
 4. GitHub opens a prefilled issue. Sign in and submit it without changing the field headings. The title must be `[Patch request] codename`.
-5. Return to the workshop. A random marker in the prefilled issue lets this browser automatically locate its submission, including repeated requests for the same codename. Keep that marker in the submitted body. The page remembers pending and active requests locally; no issue number needs to be entered. Status comes from bot-owned comments, checked every 45 seconds while the page is visible. GitHub API rate limits may require using the issue/run links instead. Automatic recovery requires the same browser with its local storage intact; a saved `?job=` page link can reopen a found request elsewhere.
+5. Return to the patch service. A random marker in the prefilled issue lets this browser automatically locate its submission, including repeated requests for the same codename. Keep that marker in the submitted body. The page remembers pending and active requests locally; no issue number needs to be entered. Status comes from bot-owned comments, checked every 45 seconds while the page is visible. GitHub API rate limits may require using the issue/run links instead. Automatic recovery requires the same browser with its local storage intact; a saved `?job=` page link can reopen a found request elsewhere.
 6. Successful verification publishes `<codename>-mtp-patched-<issue-number>.zip` and its `.sha256` file under release tag `mtp-<issue-number>-<codename>`. Requests are automatically closed after success or failure.
 
 Packages contain `oplus-services-patched.jar`, `SHA256.txt`, `PATCH-INFO.txt`, and `README.txt`. The report records the original patcher's checks, input/output hashes, codename, automatic inspection policy, request, run, and source commit. Codename labels never imply device compatibility. No device installation is performed.

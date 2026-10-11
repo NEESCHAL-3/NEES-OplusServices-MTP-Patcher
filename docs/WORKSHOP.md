@@ -1,5 +1,9 @@
 # MTP Patcher
 
+**[Open MTP Patcher](https://neeschal-3.github.io/NEES-MTP-Workshop/)**
+
+The website is public and open to everyone. Sign in to GitHub to submit a patch request; viewing the site and downloading packages requires no login.
+
 The patch service is a static GitHub Pages website, hosted separately from a private source repository, backed by this repository's issue events and Actions. There is no external backend and no credential in the browser.
 
 ## User flow
